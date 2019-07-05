@@ -1,13 +1,15 @@
 #ifndef DEEPIN_KWIN_SETTINGS_H
 #define DEEPIN_KWIN_SETTINGS_H
 
-#include <QMainWindow>
+#include <DMainWindow>
+DWIDGET_USE_NAMESPACE
+DCORE_USE_NAMESPACE
 
 namespace Ui {
 class deepin_kwin_settings;
 }
 
-class deepin_kwin_settings : public QMainWindow
+class deepin_kwin_settings : public DMainWindow
 {
     Q_OBJECT
 

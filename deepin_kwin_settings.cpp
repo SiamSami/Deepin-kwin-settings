@@ -3,6 +3,7 @@
 #include <iostream>
 #include <fstream>
 #include <QListWidgetItem>
+#include <QMessageBox>
 using namespace std;
 QListWidgetItem* checkbox[5];
 string home = getenv("HOME");
@@ -10,7 +11,7 @@ bool plugins = false;
 bool effectcover = false;
 
 deepin_kwin_settings::deepin_kwin_settings(QWidget *parent) :
-    QMainWindow(parent),
+    DMainWindow(parent),
     ui(new Ui::deepin_kwin_settings)
 {
     ui->setupUi(this);
@@ -118,4 +119,9 @@ void deepin_kwin_settings::on_pushButton_clicked()
     write << backup.toStdString() << endl;
     write.close();
     system("kwin_x11 --replace&");
+    QMessageBox success;
+    success.setWindowTitle("Message");
+    success.setText("Done!");
+    success.setStandardButtons(QMessageBox::Ok);
+    success.exec();
 }
