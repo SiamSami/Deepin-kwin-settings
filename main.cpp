@@ -14,7 +14,7 @@ int main(int argc, char *argv[])
     dialog.setWebsiteLink("https://github.com/SiamSami/Deepin-kwin-settings");
     dialog.setCompanyLogo(QPixmap(""));
     dialog.setLicense("Licensed under GNU GPL 3");
-    dialog.setVersion("Version 1.0");
+    dialog.setVersion("Version 1.0 (Beta)");
     dialog.setProductName("Deepin-Kwin settings");
     dialog.setWebsiteName("Made by Siam Sami");
     dialog.setAcknowledgementVisible(false);
