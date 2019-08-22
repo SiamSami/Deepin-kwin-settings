@@ -94,24 +94,24 @@ void deepin_kwin_settings::on_pushButton_clicked()
         }
         backup.append("[Plugins]\n");
         if(checkbox[0]->checkState()){
-            backup.append("wobblywindowsEnabled=true");
+            backup.append("wobblywindowsEnabled=true\n");
         }else {
-            backup.append("wobblywindowsEnabled=false");
+            backup.append("wobblywindowsEnabled=false\n");
         }
         if(checkbox[1]->checkState()){
-            backup.append("blurEnabled=true");
+            backup.append("blurEnabled=true\n");
         }else {
-            backup.append("blurEnabled=false");
+            backup.append("blurEnabled=false\n");
         }
         if(checkbox[2]->checkState()){
-            backup.append("kwin4_effect_dimscreenEnabled=true");
+            backup.append("kwin4_effect_dimscreenEnabled=true\n");
         }else {
-            backup.append("kwin4_effect_dimscreenEnabled=false");
+            backup.append("kwin4_effect_dimscreenEnabled=false\n");
         }
         if(checkbox[3]->checkState()){
-            backup.append("coverswitchEnabled=true");
+            backup.append("coverswitchEnabled=true\n");
         }else {
-            backup.append("coverswitchEnabled=false");
+            backup.append("coverswitchEnabled=false\n");
 }
     }
     file.close();
