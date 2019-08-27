@@ -5,11 +5,11 @@
 #include <QListWidgetItem>
 #include <QMessageBox>
 using namespace std;
-QListWidgetItem* checkbox[5];
+QListWidgetItem* checkbox[7];
 string home = getenv("HOME");
 bool plugins = false;
 bool effectcover = false;
-
+bool tabBox = false;
 deepin_kwin_settings::deepin_kwin_settings(QWidget *parent) :
     DMainWindow(parent),
     ui(new Ui::deepin_kwin_settings)
@@ -24,6 +24,12 @@ deepin_kwin_settings::deepin_kwin_settings(QWidget *parent) :
     checkbox[2]->setCheckState(Qt::Unchecked);
     checkbox[3] = new QListWidgetItem("Cover switch", ui->listWidget);
     checkbox[3]->setCheckState(Qt::Unchecked);
+    checkbox[4] = new QListWidgetItem("\"Fade\" animation when closing or opening programs", ui->listWidget);
+    checkbox[4]->setCheckState(Qt::Unchecked);
+    checkbox[5] = new QListWidgetItem("Sliding popup animation", ui->listWidget);
+    checkbox[5]->setCheckState(Qt::Unchecked);
+    checkbox[6] = new QListWidgetItem("Show \"Desktop\" while switching through programs", ui->listWidget);
+    checkbox[6]->setCheckState(Qt::Unchecked);
     ifstream file(home+"/.config/kwinrc");
     //QString str;
     std::string temp;
@@ -33,6 +39,9 @@ deepin_kwin_settings::deepin_kwin_settings(QWidget *parent) :
         }
         if(temp == "[Effect-CoverSwitch]"){
             effectcover = true;
+        }
+        if(temp == "[TabBox]"){
+            tabBox = true;
         }
         if(temp=="wobblywindowsEnabled=true"){
             checkbox[0]->setFlags(checkbox[0]->flags() | Qt::ItemIsUserCheckable);
@@ -49,6 +58,18 @@ deepin_kwin_settings::deepin_kwin_settings(QWidget *parent) :
         if(temp == "coverswitchEnabled=true"){
             checkbox[3]->setFlags(checkbox[3]->flags() | Qt::ItemIsUserCheckable);
             checkbox[3]->setCheckState(Qt::Checked);
+        }
+        if(temp == "kwin4_effect_fadeEnabled[$d]"){
+            checkbox[4]->setFlags(checkbox[4]->flags() | Qt::ItemIsUserCheckable);
+            checkbox[4]->setCheckState(Qt::Checked);
+        }
+        if(temp == "slidingpopupsEnabled[$d]"){
+            checkbox[5]->setFlags(checkbox[5]->flags() | Qt::ItemIsUserCheckable);
+            checkbox[5]->setCheckState(Qt::Checked);
+        }
+        if(temp == "ShowDesktopMode=1"){
+            checkbox[6]->setFlags(checkbox[6]->flags() | Qt::ItemIsUserCheckable);
+            checkbox[6]->setCheckState(Qt::Checked);
         }
     }
     file.close();
@@ -67,11 +88,12 @@ void deepin_kwin_settings::on_pushButton_clicked()
     while (getline(file, temp)) {
         backup.append(QString(temp.c_str())+"\n");
     }
+
     if(plugins){
         if(checkbox[0]->checkState()){
             backup.replace("wobblywindowsEnabled=false", "wobblywindowsEnabled=true");
         }else {
-        backup.replace("wobblywindowsEnabled=true", "wobblywindowsEnabled=false");
+            backup.replace("wobblywindowsEnabled=true", "wobblywindowsEnabled=false");
         }
         if(checkbox[1]->checkState()){
             backup.replace("blurEnabled=false", "blurEnabled=true");
@@ -87,7 +109,17 @@ void deepin_kwin_settings::on_pushButton_clicked()
             backup.replace("coverswitchEnabled=false","coverswitchEnabled=true");
         }else {
             backup.replace("coverswitchEnabled=true", "coverswitchEnabled=false");
-}
+        }
+        if(checkbox[4]->checkState()){
+            backup.replace("kwin4_effect_fadeEnabled=false","kwin4_effect_fadeEnabled[$d]");
+        }else {
+            backup.replace("kwin4_effect_fadeEnabled[$d]","kwin4_effect_fadeEnabled=false");
+        }
+        if(checkbox[5]->checkState()){
+            backup.replace("slidingpopupsEnabled=false", "slidingpopupsEnabled[$d]");
+        }else{
+            backup.replace("slidingpopupsEnabled[$d]", "slidingpopupsEnabled=false");
+        }
     }else {
         if(!effectcover){
             backup.append("[Effect-CoverSwitch]\nReflection=true\nTabBox=true\nTabBoxAlternative=true\n");
@@ -112,7 +144,24 @@ void deepin_kwin_settings::on_pushButton_clicked()
             backup.append("coverswitchEnabled=true\n");
         }else {
             backup.append("coverswitchEnabled=false\n");
-}
+        }
+        if(checkbox[4]->checkState()){
+            backup.append("kwin4_effect_fadeEnabled[$d]\n");
+        }else {
+            backup.append("kwin4_effect_fadeEnabled=false\n");
+        }
+        if(checkbox[5]->checkState()){
+            backup.append("slidingpopupsEnabled[$d]\n");
+        }else{
+            backup.append("slidingpopupsEnabled=false\n");
+        }
+    }
+    if(tabBox){
+        if(checkbox[6]->checkState()){
+            backup.replace("ShowDesktopMode=0","ShowDesktopMode=1");
+        }else {
+            backup.replace("ShowDesktopMode=1","ShowDesktopMode=0");
+        }
     }
     file.close();
     ofstream write(home+"/.config/kwinrc");
