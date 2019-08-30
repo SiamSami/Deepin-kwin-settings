@@ -1,6 +1,8 @@
 # Deepin-kwin-settings
 This is a program to change some of the settings of deepin-kwin   
 
+### Screenshot
+https://www.dropbox.com/home?preview=DeepinScreenshot_dde-desktop_20190830082858.png
 
 ## How to compile and run
 Open a terminal and type the following, \
