@@ -10,6 +10,7 @@ string home = getenv("HOME");
 bool plugins = false;
 bool effectcover = false;
 bool tabBox = false;
+bool compositing = false;
 deepin_kwin_settings::deepin_kwin_settings(QWidget *parent) :
     DMainWindow(parent),
     ui(new Ui::deepin_kwin_settings)
@@ -34,10 +35,19 @@ deepin_kwin_settings::deepin_kwin_settings(QWidget *parent) :
     checkbox[7]->setCheckState(Qt::Unchecked);
     checkbox[8] = new QListWidgetItem("Glide windows as they appear or disappear", ui->listWidget);
     checkbox[8]->setCheckState(Qt::Unchecked);
+    checkbox[9] = new QListWidgetItem("Always show window preview in the dock", ui->listWidget);
+    checkbox[9]->setCheckState(Qt::Unchecked);
     ifstream file(home+"/.config/kwinrc");
     //QString str;
     std::string temp;
     while (getline(file, temp)) {
+        if(temp == "Compositing"){
+            compositing=true;
+        }
+        if(temp == "HiddenPreviews=6"){
+            checkbox[9]->setFlags(checkbox[9]->flags() | Qt::ItemIsUserCheckable);
+            checkbox[9]->setCheckState(Qt::Checked);
+        }
         if(temp=="[Plugins]"){
             plugins= true;
         }
@@ -97,7 +107,22 @@ void deepin_kwin_settings::on_pushButton_clicked()
     while (getline(file, temp)) {
         backup.append(QString(temp.c_str())+"\n");
     }
-
+    if(compositing){
+        if(checkbox[9]->checkState()){
+            backup.replace("HiddenPreviews=4","HiddenPreviews=6");
+            backup.replace("HiddenPreviews=5","HiddenPreviews=6");
+        }else{
+            backup.replace("HiddenPreviews=6", "HiddenPreviews=4");
+        }
+    }else{
+        backup.append("[Compositing]\n");
+        if(checkbox[9]->checkState()){
+            backup.replace("HiddenPreviews=4","HiddenPreviews=6");
+            backup.replace("HiddenPreviews=5","HiddenPreviews=6");
+        }else{
+            backup.replace("HiddenPreviews=6", "HiddenPreviews=4");
+        }
+    }
     if(plugins){
         if(checkbox[0]->checkState()){
             backup.replace("wobblywindowsEnabled=false", "wobblywindowsEnabled=true");
