@@ -107,6 +107,7 @@ void deepin_kwin_settings::on_pushButton_clicked()
     while (getline(file, temp)) {
         backup.append(QString(temp.c_str())+"\n");
     }
+    backup.replace("OpenGLIsUnsafe=true", "OpenGLIsUnsafe=false");
     if(compositing){
         if(checkbox[9]->checkState()){
             backup.replace("HiddenPreviews=4","HiddenPreviews=6");
