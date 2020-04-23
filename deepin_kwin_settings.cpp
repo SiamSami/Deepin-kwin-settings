@@ -197,19 +197,19 @@ void deepin_kwin_settings::on_pushButton_clicked()
             backup.append("slidingpopupsEnabled=false\n");
         }
         if(checkbox[6]->checkState()){
-            backup.append("kwin4_effect_translucencyEnabled[$d]");
+            backup.append("kwin4_effect_translucencyEnabled[$d]\n");
         }else {
-            backup.append("kwin4_effect_translucencyEnabled=false");
+            backup.append("kwin4_effect_translucencyEnabled=false\n");
         }
         if(checkbox[7]->checkState()){
-            backup.append("sheetEnabled=true");
+            backup.append("sheetEnabled=true\n");
         }else{
-            backup.append("sheetEnabled=false");
+            backup.append("sheetEnabled=false\n");
         }
         if(checkbox[8]->checkState()){
-            backup.append("glideEnabled=true");
+            backup.append("glideEnabled=true\n");
         }else{
-            backup.append("glideEnabled=false");
+            backup.append("glideEnabled=false\n");
         }
     }
     if(tabBox){
