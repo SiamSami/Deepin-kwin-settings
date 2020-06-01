@@ -223,7 +223,7 @@ void deepin_kwin_settings::on_pushButton_clicked()
     ofstream write(home+"/.config/kwinrc");
     write << backup.toStdString() << endl;
     write.close();
-    system("kwin_x11 --replace&");
+    system("killall kwin_x11");
     QMessageBox success;
     success.setWindowTitle("Message");
     success.setText("Done!");
